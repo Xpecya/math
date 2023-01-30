@@ -60,6 +60,10 @@ public class ComplexNumber {
         return new ComplexNumber(resultA, resultB);
     }
 
+    public double getDoubleValue() {
+        return a;
+    }
+
     @Override
     public String toString() {
         if (b == 0) {

@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b84e12b1-2349-4ba0-a47a-766dcfdb2bdc" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/ComplexNumber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/Matrix.java" afterDir="false" />
+    <list default="true" id="b84e12b1-2349-4ba0-a47a-766dcfdb2bdc" name="变更" comment="完成基本复数和矩阵运算">
+      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/ComplexMatrix.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/SimpleMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/ComplexNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/ComplexNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/Matrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/xpecya/math/Matrix.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +52,8 @@
   }
 }</component>
   <component name="RunManager">
-    <configuration name="Matrix" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="xyz.xpecya.math.Matrix" />
+    <configuration name="ComplexMatrix" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="xyz.xpecya.math.ComplexMatrix" />
       <module name="math" />
       <extension name="coverage">
         <pattern>
@@ -70,7 +67,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.Matrix" />
+        <item itemvalue="应用程序.ComplexMatrix" />
       </list>
     </recent_temporary>
   </component>
@@ -83,6 +80,18 @@
       <option name="presentableId" value="Default" />
       <updated>1672743272939</updated>
     </task>
+    <task id="LOCAL-00001" summary="完成基本复数和矩阵运算">
+      <created>1675048212910</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675048212910</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="完成基本复数和矩阵运算" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成基本复数和矩阵运算" />
   </component>
 </project>
