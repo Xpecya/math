@@ -5,7 +5,7 @@ package xyz.xpecya.math;
  * 计算可能不是那么准确但是工程上够用
  * 不可变对象，所有复数运算都会生成一个新的复数对象
  */
-public class ComplexNumber {
+public class ComplexNumber implements Cloneable {
 
     private final double a;
 
@@ -65,10 +65,31 @@ public class ComplexNumber {
     }
 
     @Override
+    public ComplexNumber clone() {
+        return new ComplexNumber(a, b);
+    }
+
+    @Override
     public String toString() {
         if (b == 0) {
             return String.valueOf(a);
         }
         return String.format("%f%s%fi", a, b > 0 ? '+' : '-', Math.abs(b));
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.valueOf(a * 31 + b).intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof ComplexNumber complexNumber) {
+            return a == complexNumber.a && b == complexNumber.b;
+        }
+        return false;
     }
 }
