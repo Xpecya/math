@@ -290,6 +290,23 @@ public abstract class Matrix {
         return doGetComplexValue(row, column);
     }
 
+    /**
+     * 将当前矩阵转换为行列式
+     * 要求当前矩阵必须是方阵 即row == column
+     *
+     * @return 转换结果
+     */
+    public Determinant toDeterminant() {
+        int row = getRow();
+        int column = getColumn();
+        if (row != column) {
+            throw new IllegalStateException("this matrix is not a square matrix! row = " + row + ", column = " + column);
+        }
+        return doToDeterminant();
+    }
+
+    protected abstract Determinant doToDeterminant();
+
     protected abstract ComplexNumber doGetComplexValue(int row, int column);
 
     private void sameMatrixCheck(Matrix matrix) {

@@ -126,6 +126,18 @@ public class ComplexMatrix extends Matrix {
     }
 
     @Override
+    protected Determinant doToDeterminant() {
+        int row = getRow();
+        ComplexNumber[][] newArray = new ComplexNumber[row][row];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < row; j++) {
+                newArray[i][j] = numberArray[i][j].clone();
+            }
+        }
+        return new ComplexDeterminant(newArray);
+    }
+
+    @Override
     public ComplexNumber doGetComplexValue(int row, int column) {
         return numberArray[row][column];
     }

@@ -138,6 +138,16 @@ public class SimpleMatrix extends Matrix {
     }
 
     @Override
+    protected Determinant doToDeterminant() {
+        int row = getRow();
+        double[][] newArray = new double[row][row];
+        for (int i = 0; i < row; i++) {
+            System.arraycopy(numberArray[i], 0, newArray[i], 0, row);
+        }
+        return new SimpleDeterminant(newArray);
+    }
+
+    @Override
     protected ComplexNumber doGetComplexValue(int row, int column) {
         return new ComplexNumber(doGetDoubleValue(row, column));
     }
