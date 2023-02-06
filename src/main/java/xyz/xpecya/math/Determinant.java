@@ -51,6 +51,7 @@ public abstract class Determinant {
 
     /**
      * 用浮点数组创建一个行列式
+     * 对源数组的修改不会导致行列式的修改，反之亦然
      *
      * @param numberArrays 浮点数组
      * @return 浮点数行列式
@@ -63,22 +64,34 @@ public abstract class Determinant {
         if (length < 2) {
             throw new IllegalArgumentException("numberArray's length can't be less than 2! got " + length);
         }
+        double[] firstArray = numberArrays[0];
+        if (firstArray == null) {
+            throw new IllegalArgumentException("numberArrays[0] is null!");
+        }
+        int doubleLength = firstArray.length;
+        if (doubleLength != length) {
+            throw new IllegalArgumentException("numberArrays.length = " + length
+                    + ", numberArrays[0].length = " + doubleLength);
+        }
+        double[][] newArray = new double[length][doubleLength];
         for (int i = 0; i < length; i++) {
             double[] doubleArray = numberArrays[i];
             if (doubleArray == null) {
                 throw new IllegalArgumentException("numberArrays[" + i + "] is null!");
             }
-            int doubleLength = doubleArray.length;
+            doubleLength = doubleArray.length;
             if (doubleLength != length) {
                 throw new IllegalArgumentException("numberArrays.length = " + length
                         + ", numberArrays[" + i + "].length = " + doubleLength);
             }
+            System.arraycopy(numberArrays[i], 0, newArray[i], 0, doubleLength);
         }
         return new SimpleDeterminant(numberArrays);
     }
 
     /**
      * 用复数组创建一个行列式
+     * 对源数组的修改不会导致行列式的修改，反之亦然
      *
      * @param numberArrays 复数组
      * @return 复数行列式
@@ -91,12 +104,22 @@ public abstract class Determinant {
         if (length < 2) {
             throw new IllegalArgumentException("numberArray's length can't be less than 2! got " + length);
         }
+        ComplexNumber[] firstArray = numberArrays[0];
+        if (firstArray == null) {
+            throw new IllegalArgumentException("numberArrays[0] is null!");
+        }
+        int doubleLength = firstArray.length;
+        if (doubleLength != length) {
+            throw new IllegalArgumentException("numberArrays.length = " + length
+                    + ", numberArrays[0].length = " + doubleLength);
+        }
+        ComplexNumber[][] newArray = new ComplexNumber[length][doubleLength];
         for (int i = 0; i < length; i++) {
             ComplexNumber[] complexNumberArray = numberArrays[i];
             if (complexNumberArray == null) {
                 throw new IllegalArgumentException("numberArrays[" + i + "] is null!");
             }
-            int doubleLength = complexNumberArray.length;
+            doubleLength = complexNumberArray.length;
             if (doubleLength != length) {
                 throw new IllegalArgumentException("numberArrays.length = " + length
                         + ", numberArrays[" + i + "].length = " + doubleLength);
@@ -106,9 +129,10 @@ public abstract class Determinant {
                 if (complexNumber == null) {
                     throw new IllegalArgumentException("numberArrays[" + i + "][" + j + "] is null!");
                 }
+                newArray[i][j] = complexNumber.clone();
             }
         }
-        return new ComplexDeterminant(numberArrays);
+        return new ComplexDeterminant(newArray);
     }
 
     /**
