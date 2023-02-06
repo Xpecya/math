@@ -43,7 +43,7 @@ public abstract class Determinant {
         ComplexNumber[][] numberArrays = new ComplexNumber[length][length];
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                numberArrays[i][j] = initValue;
+                numberArrays[i][j] = initValue.clone();
             }
         }
         return new ComplexDeterminant(numberArrays);

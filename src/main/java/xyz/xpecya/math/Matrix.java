@@ -92,7 +92,7 @@ public abstract class Matrix {
         ComplexNumber[][] array = new ComplexNumber[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                array[i][j] = initNumber;
+                array[i][j] = initNumber.clone();
             }
         }
         return new ComplexMatrix(array);
@@ -129,7 +129,8 @@ public abstract class Matrix {
             throw new IllegalArgumentException("numberArray is null!");
         }
         int columnLength = 0;
-        for (ComplexNumber[] complexNumbers : numberArray) {
+        for (int i = 0; i < numberArray.length; i++) {
+            ComplexNumber[] complexNumbers = numberArray[i];
             if (complexNumbers == null || complexNumbers.length == 0) {
                 throw new IllegalArgumentException("there are null elements in numberArray!");
             }
@@ -138,10 +139,12 @@ public abstract class Matrix {
             } else if (columnLength != complexNumbers.length) {
                 throw new IllegalArgumentException("arrays' length in numberArray must be the same!");
             }
-            for (ComplexNumber complexNumber : complexNumbers) {
+            for (int j = 0; j < complexNumbers.length; j++) {
+                ComplexNumber complexNumber = complexNumbers[j];
                 if (complexNumber == null) {
                     throw new IllegalArgumentException("there are null elements in numberArray!");
                 }
+                numberArray[i][j] = complexNumber.clone();
             }
         }
         return new ComplexMatrix(numberArray);
