@@ -46,7 +46,7 @@ public class SimpleDeterminant extends Determinant {
     }
 
     @Override
-    public Matrix transform() {
+    public Matrix toMatrix() {
         return new SimpleMatrix(numberArrays);
     }
 

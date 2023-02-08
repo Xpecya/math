@@ -1,19 +1,24 @@
 package xyz.xpecya.math.test;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
 import xyz.xpecya.math.ComplexNumber;
 
 import java.lang.reflect.Field;
 import java.util.Random;
 
+import static xyz.xpecya.math.test.TestConfig.REPEATED;
+
+/**
+ * 复数测试
+ */
 public class ComplexNumberTest {
 
     /**
      * 用无参构造函数构造一个复数对象
      * 复数等于0
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void createZero() {
         ComplexNumber result = new ComplexNumber();
         Assertions.assertEquals(result, new ComplexNumber(0));
@@ -23,7 +28,7 @@ public class ComplexNumberTest {
      * 用只有一个浮点数为参数的构造函数构造一个复数
      * 复数等于该浮点数
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void createDouble() {
         Random random = new Random();
         double randomDouble = random.nextDouble();
@@ -35,7 +40,7 @@ public class ComplexNumberTest {
      * 通过两个浮点数构造复数
      * 分别检查构造的复数的实部和虚部
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void createGeneral() throws NoSuchFieldException, IllegalAccessException {
         Random random = new Random();
         double randomA = random.nextDouble();
@@ -53,7 +58,7 @@ public class ComplexNumberTest {
      * 同时校验复数的不可变性
      * 加法交换律不用单独测试
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void add() throws NoSuchFieldException, IllegalAccessException {
         ComplexNumber first = random();
         double firstA = first.getDoubleValue();
@@ -84,7 +89,7 @@ public class ComplexNumberTest {
      * 随机构造两个复数 相减然后分别检查实部和虚部
      * 同时校验复数的不可变性
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void minus() throws NoSuchFieldException, IllegalAccessException {
         ComplexNumber first = random();
         double firstA = first.getDoubleValue();
@@ -116,7 +121,7 @@ public class ComplexNumberTest {
      * 同时校验复数的不可变性
      * 乘法交换律不用单独测试
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void multi() throws NoSuchFieldException, IllegalAccessException {
         ComplexNumber first = random();
         double firstA = first.getDoubleValue();
@@ -147,7 +152,7 @@ public class ComplexNumberTest {
      * 随机构造两个复数 相除然后分别检查实部和虚部
      * 同时校验复数的不可变性
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void div() throws NoSuchFieldException, IllegalAccessException {
         ComplexNumber first = random();
         double firstA = first.getDoubleValue();
@@ -183,7 +188,7 @@ public class ComplexNumberTest {
      * 测试获取复数的浮点数值
      * 检测浮点数值等于实部
      */
-    @Test
+    @RepeatedTest(REPEATED)
     public void getDoubleValueTest() throws NoSuchFieldException, IllegalAccessException {
         Random random = new Random();
         double randomDouble = random.nextDouble();
@@ -193,7 +198,7 @@ public class ComplexNumberTest {
         Assertions.assertEquals(field.get(complexNumber), randomDouble);
     }
 
-    @Test
+    @RepeatedTest(REPEATED)
     public void cloneTest() {
         ComplexNumber random = random();
         ComplexNumber clone = random.clone();

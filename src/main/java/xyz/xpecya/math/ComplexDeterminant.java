@@ -43,7 +43,7 @@ public class ComplexDeterminant extends Determinant {
     }
 
     @Override
-    public Matrix transform() {
+    public Matrix toMatrix() {
         return new ComplexMatrix(numberArrays);
     }
 

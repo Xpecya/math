@@ -143,7 +143,7 @@ public abstract class Determinant {
     /**
      * 返回由行列式中的元素构成的矩阵方阵
      */
-    public abstract Matrix transform();
+    public abstract Matrix toMatrix();
 
     /**
      * 求解形如Ax=B的线性方程组
