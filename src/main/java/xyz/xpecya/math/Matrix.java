@@ -100,65 +100,72 @@ public abstract class Matrix {
 
     /**
      * 通用创建函数 可以构造任意矩阵
-     * 为避免运行时空指针异常，遍历确保数组中没有null项
      * 对源数组的修改不会导致矩阵值的修改，反之亦然
      */
     public static Matrix create(double[][] numberArray) {
         if (numberArray == null || numberArray.length == 0) {
-            throw new IllegalArgumentException("numberArray is null!");
+            throw new IllegalArgumentException("numberArray is empty!");
         }
-        int columnLength = 0;
-        double[] firstArray = numberArray[0];
-        if (firstArray == null || firstArray.length == 0) {
-            throw new IllegalArgumentException("there are null elements in numberArray!");
+
+        // 获取矩阵长度
+        int column = 0;
+        for (double[] doubles : numberArray) {
+            if (doubles != null && doubles.length > column) {
+                column = doubles.length;
+            }
         }
-        double[][] newArray = new double[numberArray.length][numberArray[0].length];
+        if (column < 1) {
+            throw new IllegalArgumentException("numberArray is empty!");
+        }
+        double[][] newArray = new double[numberArray.length][column];
+
         for (int i = 0; i < numberArray.length; i++) {
             double[] doubles = numberArray[i];
-            if (doubles == null || doubles.length == 0) {
-                throw new IllegalArgumentException("there are null elements in numberArray!");
-            }
-            if (columnLength == 0) {
-                columnLength = doubles.length;
-            } else if (columnLength != doubles.length) {
-                throw new IllegalArgumentException("arrays' length in numberArray must be the same!");
+            if (doubles == null) {
+                continue;
             }
             System.arraycopy(numberArray[i], 0, newArray[i], 0, doubles.length);
         }
-        return new SimpleMatrix(numberArray);
+        return new SimpleMatrix(newArray);
     }
 
     /**
      * 通用创建函数 可以构造任意矩阵
-     * 为避免运行时空指针异常，用二重遍历确保数组中没有null项
      * 对源数组的修改不会导致矩阵值的修改，反之亦然
      */
     public static Matrix create(ComplexNumber[][] numberArray) {
         if (numberArray == null || numberArray.length == 0) {
             throw new IllegalArgumentException("numberArray is null!");
         }
-        int columnLength = 0;
-        ComplexNumber[] firstArray = numberArray[0];
-        if (firstArray == null || firstArray.length == 0) {
-            throw new IllegalArgumentException("there are null elements in numberArray!");
+
+        // 获取矩阵长度
+        int column = 0;
+        for (ComplexNumber[] complexNumbers : numberArray) {
+            if (complexNumbers != null && complexNumbers.length > column) {
+                column = complexNumbers.length;
+            }
         }
-        ComplexNumber[][] newArray = new ComplexNumber[numberArray.length][numberArray[0].length];
+        if (column < 1) {
+            throw new IllegalArgumentException("numberArray is empty!");
+        }
+        ComplexNumber[][] newArray = new ComplexNumber[numberArray.length][column];
+
         for (int i = 0; i < numberArray.length; i++) {
             ComplexNumber[] complexNumbers = numberArray[i];
-            if (complexNumbers == null || complexNumbers.length == 0) {
-                throw new IllegalArgumentException("there are null elements in numberArray!");
+            if (complexNumbers == null) {
+                continue;
             }
-            if (columnLength == 0) {
-                columnLength = complexNumbers.length;
-            } else if (columnLength != complexNumbers.length) {
-                throw new IllegalArgumentException("arrays' length in numberArray must be the same!");
-            }
-            for (int j = 0; j < complexNumbers.length; j++) {
-                ComplexNumber complexNumber = complexNumbers[j];
-                if (complexNumber == null) {
-                    throw new IllegalArgumentException("there are null elements in numberArray!");
+            for (int j = 0; j < column; j++) {
+                if (j < complexNumbers.length) {
+                    ComplexNumber complexNumber = complexNumbers[j];
+                    if (complexNumber == null) {
+                        newArray[i][j] = new ComplexNumber();
+                    } else {
+                        newArray[i][j] = complexNumber.clone();
+                    }
+                } else {
+                    newArray[i][j] = new ComplexNumber();
                 }
-                newArray[i][j] = complexNumber.clone();
             }
         }
         return new ComplexMatrix(newArray);

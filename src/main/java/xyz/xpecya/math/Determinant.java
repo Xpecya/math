@@ -60,33 +60,27 @@ public abstract class Determinant {
         if (numberArrays == null) {
             throw new IllegalArgumentException("numberArrays can't be null!");
         }
+
+        // 获取行列式长度
         int length = numberArrays.length;
+        for (double[] doubles : numberArrays) {
+            if (doubles != null && doubles.length > length) {
+                length = doubles.length;
+            }
+        }
         if (length < 2) {
             throw new IllegalArgumentException("numberArray's length can't be less than 2! got " + length);
         }
-        double[] firstArray = numberArrays[0];
-        if (firstArray == null) {
-            throw new IllegalArgumentException("numberArrays[0] is null!");
-        }
-        int doubleLength = firstArray.length;
-        if (doubleLength != length) {
-            throw new IllegalArgumentException("numberArrays.length = " + length
-                    + ", numberArrays[0].length = " + doubleLength);
-        }
-        double[][] newArray = new double[length][doubleLength];
+        double[][] newArray = new double[length][length];
+
         for (int i = 0; i < length; i++) {
             double[] doubleArray = numberArrays[i];
             if (doubleArray == null) {
-                throw new IllegalArgumentException("numberArrays[" + i + "] is null!");
+                continue;
             }
-            doubleLength = doubleArray.length;
-            if (doubleLength != length) {
-                throw new IllegalArgumentException("numberArrays.length = " + length
-                        + ", numberArrays[" + i + "].length = " + doubleLength);
-            }
-            System.arraycopy(numberArrays[i], 0, newArray[i], 0, doubleLength);
+            System.arraycopy(numberArrays[i], 0, newArray[i], 0, doubleArray.length);
         }
-        return new SimpleDeterminant(numberArrays);
+        return new SimpleDeterminant(newArray);
     }
 
     /**
@@ -100,36 +94,35 @@ public abstract class Determinant {
         if (numberArrays == null) {
             throw new IllegalArgumentException("numberArrays can't be null!");
         }
+
+        // 获取行列式长度
         int length = numberArrays.length;
+        for (ComplexNumber[] complexNumbers : numberArrays) {
+            if (complexNumbers != null && complexNumbers.length > length) {
+                length = complexNumbers.length;
+            }
+        }
         if (length < 2) {
             throw new IllegalArgumentException("numberArray's length can't be less than 2! got " + length);
         }
-        ComplexNumber[] firstArray = numberArrays[0];
-        if (firstArray == null) {
-            throw new IllegalArgumentException("numberArrays[0] is null!");
-        }
-        int doubleLength = firstArray.length;
-        if (doubleLength != length) {
-            throw new IllegalArgumentException("numberArrays.length = " + length
-                    + ", numberArrays[0].length = " + doubleLength);
-        }
-        ComplexNumber[][] newArray = new ComplexNumber[length][doubleLength];
+        ComplexNumber[][] newArray = new ComplexNumber[length][length];
+
         for (int i = 0; i < length; i++) {
             ComplexNumber[] complexNumberArray = numberArrays[i];
             if (complexNumberArray == null) {
-                throw new IllegalArgumentException("numberArrays[" + i + "] is null!");
-            }
-            doubleLength = complexNumberArray.length;
-            if (doubleLength != length) {
-                throw new IllegalArgumentException("numberArrays.length = " + length
-                        + ", numberArrays[" + i + "].length = " + doubleLength);
+                continue;
             }
             for (int j = 0; j < length; j++) {
-                ComplexNumber complexNumber = complexNumberArray[j];
-                if (complexNumber == null) {
-                    throw new IllegalArgumentException("numberArrays[" + i + "][" + j + "] is null!");
+                if (j < complexNumberArray.length) {
+                    ComplexNumber complexNumber = complexNumberArray[j];
+                    if (complexNumber == null) {
+                        newArray[i][j] = new ComplexNumber();
+                    } else {
+                        newArray[i][j] = complexNumber.clone();
+                    }
+                } else {
+                    newArray[i][j] = new ComplexNumber();
                 }
-                newArray[i][j] = complexNumber.clone();
             }
         }
         return new ComplexDeterminant(newArray);
