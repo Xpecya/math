@@ -8,27 +8,27 @@ import java.util.Random;
 public class SimpleLengthInitValueDeterminantTest extends SimpleDeterminantTest {
 
     @Override
-    public void createTest() {
+    public void create() {
 
     }
 
     @Override
-    public void calculateDoubleTest() {
+    public void calculateDouble() {
 
     }
 
     @Override
-    public void calculateComplexTest() {
+    public void calculateComplex() {
 
     }
 
     @Override
-    public void toMatrixTest() {
+    public void toMatrix() {
 
     }
 
     @Override
-    public void solveTest() {
+    public void solve() {
 
     }
 

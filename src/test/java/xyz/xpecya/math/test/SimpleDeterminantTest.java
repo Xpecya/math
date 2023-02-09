@@ -16,7 +16,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
 
     @Override
     @RepeatedTest(REPEATED)
-    public void triangleTest() throws NoSuchFieldException, IllegalAccessException {
+    public void triangle() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant triangleDeterminant = (SimpleDeterminant) simpleDeterminant.triangle();
         Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
@@ -35,7 +35,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
 
     @Override
     @RepeatedTest(REPEATED)
-    public void diagonalTest() throws NoSuchFieldException, IllegalAccessException {
+    public void diagonal() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant diagonalDeterminant = (SimpleDeterminant) simpleDeterminant.diagonal();
         Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
@@ -57,7 +57,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
 
     @Override
     @RepeatedTest(REPEATED)
-    public void getLengthTest() throws NoSuchFieldException, IllegalAccessException {
+    public void getLength() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         int length = simpleDeterminant.getLength();
         Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
