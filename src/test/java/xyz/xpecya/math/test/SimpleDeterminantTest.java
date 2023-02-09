@@ -16,6 +16,25 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
 
     @Override
     @RepeatedTest(REPEATED)
+    public void triangleTest() throws NoSuchFieldException, IllegalAccessException {
+        SimpleDeterminant simpleDeterminant = getSimpleInstance();
+        SimpleDeterminant triangleDeterminant = (SimpleDeterminant) simpleDeterminant.triangle();
+        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        field.setAccessible(true);
+        double[][] numberArrays = (double[][]) field.get(triangleDeterminant);
+        // 检查三角形
+        int length = numberArrays.length;
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j < i; j++) {
+                Assertions.assertEquals(numberArrays[i][j], 0d);
+            }
+        }
+        // 检查运算值
+        Assertions.assertEquals(triangleDeterminant.calculateDouble(), simpleDeterminant.calculateDouble());
+    }
+
+    @Override
+    @RepeatedTest(REPEATED)
     public void diagonalTest() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant diagonalDeterminant = (SimpleDeterminant) simpleDeterminant.diagonal();

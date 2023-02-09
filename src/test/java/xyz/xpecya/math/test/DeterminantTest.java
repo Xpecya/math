@@ -35,7 +35,7 @@ public abstract class DeterminantTest {
     /**
      * triangle方法测试
      */
-    public abstract void triangleTest();
+    public abstract void triangleTest() throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * diagonal方法测试

@@ -1,6 +1,5 @@
 package xyz.xpecya.math.test;
 
-import org.junit.jupiter.api.RepeatedTest;
 import xyz.xpecya.math.Determinant;
 import xyz.xpecya.math.SimpleDeterminant;
 
@@ -30,11 +29,6 @@ public class SimpleLengthInitValueDeterminantTest extends SimpleDeterminantTest 
 
     @Override
     public void solveTest() {
-
-    }
-
-    @Override
-    public void triangleTest() {
 
     }
 
