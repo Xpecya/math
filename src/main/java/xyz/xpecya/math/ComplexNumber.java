@@ -26,6 +26,9 @@ public class ComplexNumber implements Cloneable {
         this.b = b;
     }
 
+    /**
+     * 复数加法
+     */
     public ComplexNumber add(ComplexNumber input) {
         if (input == null) {
             throw new IllegalArgumentException("input is null!");
@@ -33,6 +36,9 @@ public class ComplexNumber implements Cloneable {
         return new ComplexNumber(this.a + input.a, this.b + input.b);
     }
 
+    /**
+     * 复数减法
+     */
     public ComplexNumber minus(ComplexNumber input) {
         if (input == null) {
             throw new IllegalArgumentException("input is null!");
@@ -40,6 +46,9 @@ public class ComplexNumber implements Cloneable {
         return new ComplexNumber(this.a - input.a, this.b - input.b);
     }
 
+    /**
+     * 复数乘法
+     */
     public ComplexNumber multi(ComplexNumber input) {
         if (input == null) {
             throw new IllegalArgumentException("input is null!");
@@ -47,6 +56,9 @@ public class ComplexNumber implements Cloneable {
         return new ComplexNumber(this.a * input.a - this.b * input.b, this.a * input.b + this.b * input.a);
     }
 
+    /**
+     * 复数除法
+     */
     public ComplexNumber div(ComplexNumber input) {
         if (input == null) {
             throw new IllegalArgumentException("input is null!");
@@ -60,8 +72,41 @@ public class ComplexNumber implements Cloneable {
         return new ComplexNumber(resultA, resultB);
     }
 
-    public double getDoubleValue() {
+    /**
+     * 获取复数实部
+     */
+    public double real() {
         return a;
+    }
+
+    /**
+     * 获取复数虚部
+     */
+    public double imaginary() {
+        return b;
+    }
+
+    /**
+     * 获取复数的模
+     */
+    public double mod() {
+        return Math.sqrt(a * a + b * b);
+    }
+
+    /**
+     * 获取复数的主幅角
+     */
+    public double arg() {
+        if (a != 0) {
+            return Math.atan(b / a);
+        }
+        if (b == 0) {
+            return 0d;
+        }
+        if (b > 0) {
+            return Math.PI / 2;
+        }
+        return -Math.PI / 2;
     }
 
     @Override

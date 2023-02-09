@@ -122,7 +122,7 @@ public class ComplexMatrix extends Matrix {
 
     @Override
     public double doGetDoubleValue(int row, int column) {
-        return numberArray[row][column].getDoubleValue();
+        return numberArray[row][column].real();
     }
 
     @Override

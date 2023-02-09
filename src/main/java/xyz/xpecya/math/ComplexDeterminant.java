@@ -15,7 +15,7 @@ public class ComplexDeterminant extends Determinant {
 
     @Override
     public double calculateDouble() {
-        return calculateComplex().getDoubleValue();
+        return calculateComplex().real();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ComplexDeterminant extends Determinant {
         ComplexNumber[] complexResult = doSolve(complexValue);
         double[] result = new double[value.length];
         for (int i = 0; i < numberArrays.length; i++) {
-            result[i] = complexResult[i].getDoubleValue();
+            result[i] = complexResult[i].real();
         }
         return result;
     }
