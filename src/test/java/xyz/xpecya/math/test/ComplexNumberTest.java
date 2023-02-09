@@ -5,9 +5,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import xyz.xpecya.math.ComplexNumber;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.Random;
 
+import static xyz.xpecya.math.test.TestConfig.DEVIATION;
 import static xyz.xpecya.math.test.TestConfig.REPEATED;
 
 /**
@@ -209,6 +209,21 @@ public class ComplexNumberTest {
         Field field = ComplexNumber.class.getDeclaredField("b");
         field.setAccessible(true);
         Assertions.assertEquals(field.get(complexNumber), imaginary);
+    }
+
+    @RepeatedTest(REPEATED)
+    public void modAndArg() {
+        Random random = new Random();
+        double randomReal = random.nextDouble();
+        double randomImaginary = random.nextDouble();
+        ComplexNumber complexNumber = new ComplexNumber(randomReal, randomImaginary);
+        double real = complexNumber.real();
+        double imaginary = complexNumber.imaginary();
+        double mod = complexNumber.mod();
+        double arg = complexNumber.arg();
+        // 用复数的三角式验证计算结果
+        Assertions.assertEquals(real, mod * Math.cos(arg), DEVIATION);
+        Assertions.assertEquals(imaginary, mod * Math.sin(arg), DEVIATION);
     }
 
     @RepeatedTest(REPEATED)
