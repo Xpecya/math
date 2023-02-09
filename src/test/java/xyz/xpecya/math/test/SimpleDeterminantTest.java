@@ -7,7 +7,7 @@ import xyz.xpecya.math.SimpleDeterminant;
 
 import java.lang.reflect.Field;
 
-import static xyz.xpecya.math.test.TestConfig.REPEATED;
+import static xyz.xpecya.math.test.TestConfig.RANDOM_REPEATED;
 
 /**
  * 基于double数组的行列式测试
@@ -15,7 +15,7 @@ import static xyz.xpecya.math.test.TestConfig.REPEATED;
 public abstract class SimpleDeterminantTest extends DeterminantTest {
 
     @Override
-    @RepeatedTest(REPEATED)
+    @RepeatedTest(RANDOM_REPEATED)
     public void triangle() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant triangleDeterminant = (SimpleDeterminant) simpleDeterminant.triangle();
@@ -34,7 +34,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     }
 
     @Override
-    @RepeatedTest(REPEATED)
+    @RepeatedTest(RANDOM_REPEATED)
     public void diagonal() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant diagonalDeterminant = (SimpleDeterminant) simpleDeterminant.diagonal();
@@ -56,7 +56,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     }
 
     @Override
-    @RepeatedTest(REPEATED)
+    @RepeatedTest(RANDOM_REPEATED)
     public void getLength() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         int length = simpleDeterminant.getLength();
