@@ -226,9 +226,9 @@ public abstract class Matrix {
      */
     public Matrix multi(Matrix matrix) {
         matrixNonNullRequirement(matrix);
-        int row = getRow();
-        int inputColumn = matrix.getColumn();
-        if (row != inputColumn) {
+        int column = getColumn();
+        int inputRow = matrix.getRow();
+        if (column != inputRow) {
             throw new IllegalArgumentException("input matrix:\r\n" + matrix +
                     "\r\nthis matrix:\r\n" + this +
                     "\r\nthey cannot multi to each other!");
@@ -275,13 +275,13 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定位置浮点数
      */
-    public double getDoubleValue(int row, int column) {
+    public double getDouble(int row, int column) {
         rowCheck(row);
         columnCheck(column);
-        return doGetDoubleValue(row, column);
+        return doGetDouble(row, column);
     }
 
-    protected abstract double doGetDoubleValue(int row, int column);
+    protected abstract double doGetDouble(int row, int column);
 
     /**
      * 获取矩阵指定位置的复数值
@@ -291,11 +291,63 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定位置浮点数
      */
-    public ComplexNumber getComplexValue(int row, int column) {
+    public ComplexNumber getComplex(int row, int column) {
         rowCheck(row);
         columnCheck(column);
-        return doGetComplexValue(row, column);
+        return doGetComplex(row, column);
     }
+
+    public double[] getDoubleRow(int row) {
+        if (row < 0) {
+            throw new IllegalArgumentException("编号不可小于0!");
+        }
+        int thisRow = getRow();
+        if (row >= thisRow) {
+            throw new IllegalArgumentException("编号" + row + "超过范围! 应在[0, " + (thisRow - 1) + "]之间!");
+        }
+        return doGetDoubleRow(row);
+    }
+
+    protected abstract double[] doGetDoubleRow(int row);
+
+    public ComplexNumber[] getComplexRow(int row) {
+        if (row < 0) {
+            throw new IllegalArgumentException("编号不可小于0!");
+        }
+        int thisRow = getRow();
+        if (row >= thisRow) {
+            throw new IllegalArgumentException("编号" + row + "超过范围! 应在[0, " + (thisRow - 1) + "]之间!");
+        }
+        return doGetComplexRow(row);
+    }
+
+    protected abstract ComplexNumber[] doGetComplexRow(int row);
+
+    public double[] getDoubleColumn(int column) {
+        if (column < 0) {
+            throw new IllegalArgumentException("编号不可小于0!");
+        }
+        int thisColumn = getColumn();
+        if (column >= thisColumn) {
+            throw new IllegalArgumentException("编号" + column + "超过范围! 应在[0, " + (thisColumn - 1) + "]之间!");
+        }
+        return doGetDoubleColumn(column);
+    }
+
+    protected abstract double[] doGetDoubleColumn(int column);
+
+    public ComplexNumber[] getComplexColumn(int column) {
+        if (column < 0) {
+            throw new IllegalArgumentException("编号不可小于0!");
+        }
+        int thisColumn = getColumn();
+        if (column >= thisColumn) {
+            throw new IllegalArgumentException("编号" + column + "超过范围! 应在[0, " + (thisColumn - 1) + "]之间!");
+        }
+        return doGetComplexColumn(column);
+    }
+
+    protected abstract ComplexNumber[] doGetComplexColumn(int column);
 
     /**
      * 将当前矩阵转换为行列式
@@ -314,7 +366,7 @@ public abstract class Matrix {
 
     protected abstract Determinant doToDeterminant();
 
-    protected abstract ComplexNumber doGetComplexValue(int row, int column);
+    protected abstract ComplexNumber doGetComplex(int row, int column);
 
     private void sameMatrixCheck(Matrix matrix) {
         matrixNonNullRequirement(matrix);

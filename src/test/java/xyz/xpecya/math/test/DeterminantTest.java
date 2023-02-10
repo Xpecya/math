@@ -1,6 +1,9 @@
 package xyz.xpecya.math.test;
 
+import xyz.xpecya.math.ComplexNumber;
 import xyz.xpecya.math.Determinant;
+
+import java.util.Random;
 
 /**
  * 行列式测试
@@ -29,8 +32,9 @@ public abstract class DeterminantTest {
 
     /**
      * solve方法测试
+     * 测试方法为，将计算结果带入方程，看结果是否正确
      */
-    public abstract void solve();
+    public abstract void solve() throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * triangle方法测试
@@ -51,4 +55,24 @@ public abstract class DeterminantTest {
     public abstract void getLength() throws NoSuchFieldException, IllegalAccessException;
 
     public abstract Determinant getInstance();
+
+    protected double[] randomDoubleArray(int length) {
+        double[] result = new double[length];
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            result[i] = random.nextDouble();
+        }
+        return result;
+    }
+
+    protected ComplexNumber[] randomComplexArray(int length) {
+        ComplexNumber[] result = new ComplexNumber[length];
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            double real = random.nextDouble();
+            double imaginary = random.nextDouble();
+            result[i] = new ComplexNumber(real, imaginary);
+        }
+        return result;
+    }
 }

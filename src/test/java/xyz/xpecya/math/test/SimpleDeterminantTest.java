@@ -7,12 +7,19 @@ import xyz.xpecya.math.SimpleDeterminant;
 
 import java.lang.reflect.Field;
 
+import static xyz.xpecya.math.test.TestConfig.DELTA;
 import static xyz.xpecya.math.test.TestConfig.RANDOM_REPEATED;
 
 /**
  * 基于double数组的行列式测试
  */
 public abstract class SimpleDeterminantTest extends DeterminantTest {
+
+    @Override
+    public void solve() throws NoSuchFieldException, IllegalAccessException {
+        solveDouble();
+        solveComplex();
+    }
 
     @Override
     @RepeatedTest(RANDOM_REPEATED)
@@ -72,4 +79,27 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     }
 
     public abstract SimpleDeterminant getSimpleInstance();
+
+    private void solveDouble() throws NoSuchFieldException, IllegalAccessException {
+        SimpleDeterminant simpleDeterminant = getSimpleInstance();
+        int length = simpleDeterminant.getLength();
+        double[] testArray = randomDoubleArray(length);
+        double[] solveResult = simpleDeterminant.solve(testArray);
+
+        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        field.setAccessible(true);
+        double[][] numberArrays = (double[][]) field.get(simpleDeterminant);
+        for (int i = 0; i < length; i++) {
+            double[] numberArray = numberArrays[i];
+            double result = 0;
+            for (int j = 0; j < length; j++) {
+                result = result + solveResult[j] * numberArray[j];
+            }
+            Assertions.assertEquals(result, testArray[i], DELTA);
+        }
+    }
+
+    private void solveComplex() {
+
+    }
 }

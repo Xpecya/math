@@ -28,11 +28,6 @@ public class SimpleLengthInitValueDeterminantTest extends SimpleDeterminantTest 
     }
 
     @Override
-    public void solve() {
-
-    }
-
-    @Override
     public SimpleDeterminant getSimpleInstance() {
         Random random = new Random();
         int randomLength = random.nextInt(2, 10);

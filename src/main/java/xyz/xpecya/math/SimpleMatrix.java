@@ -21,7 +21,7 @@ public class SimpleMatrix extends Matrix {
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] + matrix.doGetDoubleValue(i, j);
+                numberArray[i][j] = this.numberArray[i][j] + matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
@@ -37,7 +37,7 @@ public class SimpleMatrix extends Matrix {
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] - matrix.doGetDoubleValue(i, j);
+                numberArray[i][j] = this.numberArray[i][j] - matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
@@ -69,25 +69,18 @@ public class SimpleMatrix extends Matrix {
 
         int row = getRow();
         int column = getColumn();
-        int inputRow = matrix.getRow();
-        double[][] numberArray = new double[row][row];
+        int inputColumn = matrix.getColumn();
+        double[][] numberArray = new double[row][inputColumn];
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < row; j++) {
+            for (int j = 0; j < inputColumn; j++) {
                 double result = 0d;
                 for (int k = 0; k < column; k++) {
-                    if (k >= inputRow) {
-                        break;
-                    }
-                    double thisNumber = this.numberArray[j][k];
-                    double inputNumber = matrix.doGetDoubleValue(k, i);
+                    double thisNumber = this.numberArray[i][k];
+                    double inputNumber = matrix.doGetDouble(k, j);
                     double multi = thisNumber * inputNumber;
-                    if (result == 0d) {
-                        result = multi;
-                    } else {
-                        result = result + multi;
-                    }
+                    result = result + multi;
                 }
-                numberArray[j][i] = result;
+                numberArray[i][j] = result;
             }
         }
         return new SimpleMatrix(numberArray);
@@ -103,7 +96,7 @@ public class SimpleMatrix extends Matrix {
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] * matrix.doGetDoubleValue(i, j);
+                numberArray[i][j] = this.numberArray[i][j] * matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
@@ -133,8 +126,35 @@ public class SimpleMatrix extends Matrix {
     }
 
     @Override
-    protected double doGetDoubleValue(int row, int column) {
+    protected double doGetDouble(int row, int column) {
         return numberArray[row][column];
+    }
+
+    @Override
+    protected double[] doGetDoubleRow(int row) {
+        return numberArray[row];
+    }
+
+    @Override
+    protected ComplexNumber[] doGetComplexRow(int row) {
+        double[] doubleRow = doGetDoubleRow(row);
+        return getComplexArray(doubleRow);
+    }
+
+    @Override
+    protected double[] doGetDoubleColumn(int column) {
+        int row = getRow();
+        double[] result = new double[row];
+        for (int i = 0; i < row; i++) {
+            result[i] = numberArray[i][column];
+        }
+        return result;
+    }
+
+    @Override
+    protected ComplexNumber[] doGetComplexColumn(int column) {
+        double[] doubleColumn = doGetDoubleColumn(column);
+        return getComplexArray(doubleColumn);
     }
 
     @Override
@@ -148,8 +168,8 @@ public class SimpleMatrix extends Matrix {
     }
 
     @Override
-    protected ComplexNumber doGetComplexValue(int row, int column) {
-        return new ComplexNumber(doGetDoubleValue(row, column));
+    protected ComplexNumber doGetComplex(int row, int column) {
+        return new ComplexNumber(doGetDouble(row, column));
     }
 
     @Override
@@ -182,5 +202,14 @@ public class SimpleMatrix extends Matrix {
             }
         }
         return new ComplexMatrix(numberArray);
+    }
+
+    private ComplexNumber[] getComplexArray(double[] doubleArray) {
+        int length = doubleArray.length;
+        ComplexNumber[] result = new ComplexNumber[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = new ComplexNumber(doubleArray[i]);
+        }
+        return result;
     }
 }

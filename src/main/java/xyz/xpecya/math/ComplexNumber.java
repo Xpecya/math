@@ -137,4 +137,24 @@ public class ComplexNumber implements Cloneable {
         }
         return false;
     }
+
+    /**
+     * 由于double值存在计算误差，提供模糊相等函数
+     *
+     * @param complexNumber 要对比的复数
+     * @param delta 误差范围
+     */
+    public boolean equals(ComplexNumber complexNumber, double delta) {
+        if (complexNumber == null) {
+            return false;
+        }
+        return equals(a, complexNumber.a, delta) && equals(b, complexNumber.b, delta);
+    }
+
+    private static boolean equals(double a, double b, double delta) {
+        double minus = a - b;
+        double abs = Math.abs(minus);
+        double absDelta = Math.abs(delta);
+        return abs < absDelta;
+    }
 }

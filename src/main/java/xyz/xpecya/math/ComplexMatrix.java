@@ -18,7 +18,7 @@ public class ComplexMatrix extends Matrix {
         ComplexNumber[][] numberArray = new ComplexNumber[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j].add(matrix.doGetComplexValue(i, j));
+                numberArray[i][j] = this.numberArray[i][j].add(matrix.doGetComplex(i, j));
             }
         }
         return new ComplexMatrix(numberArray);
@@ -31,7 +31,7 @@ public class ComplexMatrix extends Matrix {
         ComplexNumber[][] numberArray = new ComplexNumber[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j].minus(matrix.doGetComplexValue(i, j));
+                numberArray[i][j] = this.numberArray[i][j].minus(matrix.doGetComplex(i, j));
             }
         }
         return new ComplexMatrix(numberArray);
@@ -59,18 +59,15 @@ public class ComplexMatrix extends Matrix {
     protected Matrix doMulti(Matrix matrix) {
         int row = getRow();
         int column = getColumn();
-        int inputRow = matrix.getRow();
+        int inputColumn = matrix.getColumn();
 
-        ComplexNumber[][] numberArray = new ComplexNumber[row][row];
+        ComplexNumber[][] numberArray = new ComplexNumber[row][inputColumn];
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < row; j++) {
+            for (int j = 0; j < inputColumn; j++) {
                 ComplexNumber result = null;
                 for (int k = 0; k < column; k++) {
-                    if (k >= inputRow) {
-                        break;
-                    }
-                    ComplexNumber thisNumber = this.numberArray[j][k];
-                    ComplexNumber inputNumber = matrix.doGetComplexValue(k, i);
+                    ComplexNumber thisNumber = this.numberArray[i][k];
+                    ComplexNumber inputNumber = matrix.doGetComplex(k, j);
                     ComplexNumber multi = thisNumber.multi(inputNumber);
                     if (result == null) {
                         result = multi;
@@ -91,7 +88,7 @@ public class ComplexMatrix extends Matrix {
         ComplexNumber[][] numberArray = new ComplexNumber[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j].multi(matrix.doGetComplexValue(i, j));
+                numberArray[i][j] = this.numberArray[i][j].multi(matrix.doGetComplex(i, j));
             }
         }
         return new ComplexMatrix(numberArray);
@@ -121,8 +118,33 @@ public class ComplexMatrix extends Matrix {
     }
 
     @Override
-    public double doGetDoubleValue(int row, int column) {
+    public double doGetDouble(int row, int column) {
         return numberArray[row][column].real();
+    }
+
+    @Override
+    protected double[] doGetDoubleRow(int row) {
+        return getDoubleArray(doGetComplexRow(row));
+    }
+
+    @Override
+    protected ComplexNumber[] doGetComplexRow(int row) {
+        return new ComplexNumber[row];
+    }
+
+    @Override
+    protected double[] doGetDoubleColumn(int column) {
+        return getDoubleArray(doGetComplexColumn(column));
+    }
+
+    @Override
+    protected ComplexNumber[] doGetComplexColumn(int column) {
+        int row = getRow();
+        ComplexNumber[] result = new ComplexNumber[row];
+        for (int i = 0; i < row; i++) {
+            result[i] = numberArray[i][column];
+        }
+        return result;
     }
 
     @Override
@@ -138,7 +160,7 @@ public class ComplexMatrix extends Matrix {
     }
 
     @Override
-    public ComplexNumber doGetComplexValue(int row, int column) {
+    public ComplexNumber doGetComplex(int row, int column) {
         return numberArray[row][column];
     }
 
@@ -153,5 +175,14 @@ public class ComplexMatrix extends Matrix {
             stringBuilder.append("|\r\n");
         }
         return stringBuilder.toString();
+    }
+
+    private double[] getDoubleArray(ComplexNumber[] complexNumbers) {
+        int length = complexNumbers.length;
+        double[] result = new double[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = complexNumbers[i].real();
+        }
+        return result;
     }
 }

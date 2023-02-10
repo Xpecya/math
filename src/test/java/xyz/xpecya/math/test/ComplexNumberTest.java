@@ -7,8 +7,8 @@ import xyz.xpecya.math.ComplexNumber;
 import java.lang.reflect.Field;
 import java.util.Random;
 
-import static xyz.xpecya.math.test.TestConfig.DEVIATION;
-import static xyz.xpecya.math.test.TestConfig.DEVIATION_REPEATED;
+import static xyz.xpecya.math.test.TestConfig.DELTA;
+import static xyz.xpecya.math.test.TestConfig.DELTA_REPEATED;
 import static xyz.xpecya.math.test.TestConfig.RANDOM_REPEATED;
 
 /**
@@ -200,6 +200,9 @@ public class ComplexNumberTest {
         Assertions.assertEquals(field.get(complexNumber), real);
     }
 
+    /**
+     * 测试获取复数的虚部
+     */
     @RepeatedTest(RANDOM_REPEATED)
     public void imaginary() throws NoSuchFieldException, IllegalAccessException {
         Random random = new Random();
@@ -212,7 +215,10 @@ public class ComplexNumberTest {
         Assertions.assertEquals(field.get(complexNumber), imaginary);
     }
 
-    @RepeatedTest(DEVIATION_REPEATED)
+    /**
+     * 测试获取复数的模和幅角，通过复数的三角式验证
+     */
+    @RepeatedTest(DELTA_REPEATED)
     public void modAndArg() {
         Random random = new Random();
         double randomReal = random.nextDouble();
@@ -223,16 +229,34 @@ public class ComplexNumberTest {
         double mod = complexNumber.mod();
         double arg = complexNumber.arg();
         // 用复数的三角式验证计算结果
-        Assertions.assertEquals(real, mod * Math.cos(arg), DEVIATION);
-        Assertions.assertEquals(imaginary, mod * Math.sin(arg), DEVIATION);
+        Assertions.assertEquals(real, mod * Math.cos(arg), DELTA);
+        Assertions.assertEquals(imaginary, mod * Math.sin(arg), DELTA);
     }
 
+    /**
+     * clone测试 为了避免Override java.lang.Object#clone方法而更名
+     */
     @RepeatedTest(RANDOM_REPEATED)
     public void cloneTest() {
         ComplexNumber random = random();
         ComplexNumber clone = random.clone();
         Assertions.assertNotSame(random, clone);
         Assertions.assertEquals(random, clone);
+    }
+
+    /**
+     * 模糊相等测试
+     */
+    @RepeatedTest(DELTA_REPEATED)
+    public void equals() {
+        Random random = new Random();
+        ComplexNumber randomNumber = random();
+        double real = randomNumber.real();
+        double imaginary = randomNumber.imaginary();
+        double newReal = random.nextDouble(real, real + DELTA);
+        double newImaginary = random.nextDouble(imaginary, imaginary + DELTA);
+        ComplexNumber newNumber = new ComplexNumber(newReal, newImaginary);
+        Assertions.assertTrue(randomNumber.equals(newNumber, DELTA));
     }
 
     private ComplexNumber random() {

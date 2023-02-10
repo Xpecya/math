@@ -150,6 +150,7 @@ public abstract class Determinant {
      * 其中A为当前行列式
      * B为长度等于行列式的一维数组构成的矩阵
      * 如果线性方程组无解 返回null
+     * 如果有无数多个解，返回其中一组
      *
      * @return 线性方程组的解 以浮点数形式返回
      */
@@ -163,6 +164,9 @@ public abstract class Determinant {
             throw new IllegalArgumentException("value's length = " + valueLength
                     + ", determinant's length = " + length);
         }
+        if (!solveDoubleResultExists(value)) {
+            return null;
+        }
         return doSolve(value);
     }
 
@@ -173,6 +177,7 @@ public abstract class Determinant {
      * 其中A为当前行列式
      * B为长度等于行列式的一维数组构成的矩阵
      * 如果线性方程组无解 返回null
+     * 如果有无数多个解，返回其中一组
      *
      * @return 线性方程组的解 以复数形式返回
      */
@@ -191,6 +196,9 @@ public abstract class Determinant {
             if (complexNumber == null) {
                 throw new IllegalArgumentException("value[" + i + "] is null!");
             }
+        }
+        if (!solveComplexResultExists(value)) {
+            return null;
         }
         return doSolve(value);
     }
@@ -211,4 +219,15 @@ public abstract class Determinant {
      * 获取行列式的边长
      */
     public abstract int getLength();
+
+    // 判断线性方程组的解是否存在
+    // 通过方程组矩阵和增广矩阵的轶进行比较
+
+    private boolean solveDoubleResultExists(double[] doubles) {
+        return false;
+    }
+
+    private boolean solveComplexResultExists(ComplexNumber[] complexNumbers) {
+        return false;
+    }
 }
