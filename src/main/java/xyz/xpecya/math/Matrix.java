@@ -4,7 +4,7 @@ package xyz.xpecya.math;
  * 矩阵类 根据底层的不同有多个实现类
  * 不可变对象，所有矩阵运算都会生成一个新矩阵
  */
-public abstract class Matrix {
+public interface Matrix {
 
     /**
      * 构建一个全是0的矩阵
@@ -13,7 +13,7 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定行数 列数的 全是0的矩阵
      */
-    public static Matrix zero(int row, int column) {
+    static Matrix zero(int row, int column) {
         return init(row, column, 0);
     }
 
@@ -24,7 +24,7 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定行数 列数的 全是1的矩阵
      */
-    public static Matrix one(int row, int column) {
+    static Matrix one(int row, int column) {
         return init(row, column, 1);
     }
 
@@ -35,7 +35,7 @@ public abstract class Matrix {
      * @param initNumber 初始化浮点数值
      * @return 对应边长 初始值的方阵
      */
-    public static Matrix square(int length, double initNumber) {
+    static Matrix square(int length, double initNumber) {
         return init(length, length, initNumber);
     }
 
@@ -46,7 +46,7 @@ public abstract class Matrix {
      * @param initNumber 初始化复数值
      * @return 对应边长 初始值的方阵
      */
-    public static Matrix square(int length, ComplexNumber initNumber) {
+    static Matrix square(int length, ComplexNumber initNumber) {
         return init(length, length, initNumber);
     }
 
@@ -58,7 +58,7 @@ public abstract class Matrix {
      * @param initNumber 初始化浮点值
      * @return 指定行数 列数 初始化值 的矩阵
      */
-    public static Matrix init(int row, int column, double initNumber) {
+    static Matrix init(int row, int column, double initNumber) {
         if (row <= 0) {
             throw new IllegalArgumentException("row cannot less than or equal to 0!");
         }
@@ -82,7 +82,7 @@ public abstract class Matrix {
      * @param initNumber 初始化浮点值
      * @return 指定行数 列数 初始化值 的矩阵
      */
-    public static Matrix init(int row, int column, ComplexNumber initNumber) {
+    static Matrix init(int row, int column, ComplexNumber initNumber) {
         if (row <= 0) {
             throw new IllegalArgumentException("row cannot less than or equal to 0!");
         }
@@ -102,7 +102,7 @@ public abstract class Matrix {
      * 通用创建函数 可以构造任意矩阵
      * 对源数组的修改不会导致矩阵值的修改，反之亦然
      */
-    public static Matrix create(double[][] numberArray) {
+    static Matrix create(double[][] numberArray) {
         if (numberArray == null || numberArray.length == 0) {
             throw new IllegalArgumentException("numberArray is empty!");
         }
@@ -133,7 +133,7 @@ public abstract class Matrix {
      * 通用创建函数 可以构造任意矩阵
      * 对源数组的修改不会导致矩阵值的修改，反之亦然
      */
-    public static Matrix create(ComplexNumber[][] numberArray) {
+    static Matrix create(ComplexNumber[][] numberArray) {
         if (numberArray == null || numberArray.length == 0) {
             throw new IllegalArgumentException("numberArray is null!");
         }
@@ -177,12 +177,12 @@ public abstract class Matrix {
      * @param matrix 入参矩阵
      * @return 计算后的新矩阵
      */
-    public Matrix add(Matrix matrix) {
+    default Matrix add(Matrix matrix) {
         sameMatrixCheck(matrix);
         return doAdd(matrix);
     }
 
-    protected abstract Matrix doAdd(Matrix matrix);
+    Matrix doAdd(Matrix matrix);
 
     /**
      * 矩阵减法 要求入参矩阵和当前矩阵的长和宽都完全相同
@@ -190,12 +190,12 @@ public abstract class Matrix {
      * @param matrix 入参矩阵
      * @return 计算后的新矩阵
      */
-    public Matrix minus(Matrix matrix) {
+    default Matrix minus(Matrix matrix) {
         sameMatrixCheck(matrix);
         return doMinus(matrix);
     }
 
-    protected abstract Matrix doMinus(Matrix matrix);
+    Matrix doMinus(Matrix matrix);
 
     /**
      * 矩阵数乘
@@ -203,7 +203,7 @@ public abstract class Matrix {
      * @param input 要相乘的浮点数
      * @return 相乘结果
      */
-    public abstract Matrix multi(double input);
+    Matrix multi(double input);
 
     /**
      * 矩阵数乘
@@ -211,12 +211,12 @@ public abstract class Matrix {
      * @param complexNumber 要相乘的复数
      * @return 相乘结果
      */
-    public Matrix multi(ComplexNumber complexNumber) {
+    default Matrix multi(ComplexNumber complexNumber) {
         complexNumberNonNullRequirement(complexNumber);
         return doMulti(complexNumber);
     }
 
-    protected abstract Matrix doMulti(ComplexNumber complexNumber);
+    Matrix doMulti(ComplexNumber complexNumber);
 
     /**
      * 矩阵相乘 要求入参矩阵的column == 当前矩阵的row
@@ -224,7 +224,7 @@ public abstract class Matrix {
      * @param matrix 入参矩阵
      * @return 相乘结果
      */
-    public Matrix multi(Matrix matrix) {
+    default Matrix multi(Matrix matrix) {
         matrixNonNullRequirement(matrix);
         int column = getColumn();
         int inputRow = matrix.getRow();
@@ -236,7 +236,7 @@ public abstract class Matrix {
         return doMulti(matrix);
     }
 
-    protected abstract Matrix doMulti(Matrix matrix);
+    Matrix doMulti(Matrix matrix);
 
     /**
      * 哈达马乘积
@@ -245,27 +245,27 @@ public abstract class Matrix {
      * @param matrix 入参矩阵
      * @return 相乘结果
      */
-    public Matrix hadamard(Matrix matrix) {
+    default Matrix hadamard(Matrix matrix) {
         sameMatrixCheck(matrix);
         return doHadamard(matrix);
     }
 
-    protected abstract Matrix doHadamard(Matrix matrix);
+    Matrix doHadamard(Matrix matrix);
 
     /**
      * 转置
      */
-    public abstract Matrix transpose();
+    Matrix transpose();
 
     /**
      * 获取row长度
      */
-    public abstract int getRow();
+    int getRow();
 
     /**
      * 获取column长度
      */
-    public abstract int getColumn();
+    int getColumn();
 
     /**
      * 获取矩阵指定位置的浮点值
@@ -275,13 +275,13 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定位置浮点数
      */
-    public double getDouble(int row, int column) {
+    default double getDouble(int row, int column) {
         rowCheck(row);
         columnCheck(column);
         return doGetDouble(row, column);
     }
 
-    protected abstract double doGetDouble(int row, int column);
+    double doGetDouble(int row, int column);
 
     /**
      * 获取矩阵指定位置的复数值
@@ -291,13 +291,13 @@ public abstract class Matrix {
      * @param column number of column 行数
      * @return 指定位置浮点数
      */
-    public ComplexNumber getComplex(int row, int column) {
+    default ComplexNumber getComplex(int row, int column) {
         rowCheck(row);
         columnCheck(column);
         return doGetComplex(row, column);
     }
 
-    public double[] getDoubleRow(int row) {
+    default double[] getDoubleRow(int row) {
         if (row < 0) {
             throw new IllegalArgumentException("编号不可小于0!");
         }
@@ -308,9 +308,9 @@ public abstract class Matrix {
         return doGetDoubleRow(row);
     }
 
-    protected abstract double[] doGetDoubleRow(int row);
+    double[] doGetDoubleRow(int row);
 
-    public ComplexNumber[] getComplexRow(int row) {
+    default ComplexNumber[] getComplexRow(int row) {
         if (row < 0) {
             throw new IllegalArgumentException("编号不可小于0!");
         }
@@ -321,9 +321,9 @@ public abstract class Matrix {
         return doGetComplexRow(row);
     }
 
-    protected abstract ComplexNumber[] doGetComplexRow(int row);
+    ComplexNumber[] doGetComplexRow(int row);
 
-    public double[] getDoubleColumn(int column) {
+    default double[] getDoubleColumn(int column) {
         if (column < 0) {
             throw new IllegalArgumentException("编号不可小于0!");
         }
@@ -334,9 +334,9 @@ public abstract class Matrix {
         return doGetDoubleColumn(column);
     }
 
-    protected abstract double[] doGetDoubleColumn(int column);
+    double[] doGetDoubleColumn(int column);
 
-    public ComplexNumber[] getComplexColumn(int column) {
+    default ComplexNumber[] getComplexColumn(int column) {
         if (column < 0) {
             throw new IllegalArgumentException("编号不可小于0!");
         }
@@ -347,7 +347,7 @@ public abstract class Matrix {
         return doGetComplexColumn(column);
     }
 
-    protected abstract ComplexNumber[] doGetComplexColumn(int column);
+    ComplexNumber[] doGetComplexColumn(int column);
 
     /**
      * 将当前矩阵转换为行列式
@@ -355,7 +355,7 @@ public abstract class Matrix {
      *
      * @return 转换结果
      */
-    public Determinant toDeterminant() {
+    default Determinant toDeterminant() {
         int row = getRow();
         int column = getColumn();
         if (row != column) {
@@ -364,9 +364,9 @@ public abstract class Matrix {
         return doToDeterminant();
     }
 
-    protected abstract Determinant doToDeterminant();
+    Determinant doToDeterminant();
 
-    protected abstract ComplexNumber doGetComplex(int row, int column);
+    ComplexNumber doGetComplex(int row, int column);
 
     private void sameMatrixCheck(Matrix matrix) {
         matrixNonNullRequirement(matrix);

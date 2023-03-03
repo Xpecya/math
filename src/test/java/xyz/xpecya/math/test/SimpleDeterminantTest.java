@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import xyz.xpecya.math.Determinant;
 import xyz.xpecya.math.SimpleDeterminant;
+import xyz.xpecya.math.SimpleMatrix;
 
 import java.lang.reflect.Field;
 
@@ -26,7 +27,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     public void triangle() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant triangleDeterminant = (SimpleDeterminant) simpleDeterminant.triangle();
-        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        Field field = SimpleMatrix.class.getDeclaredField("numberArrays");
         field.setAccessible(true);
         double[][] numberArrays = (double[][]) field.get(triangleDeterminant);
         // 检查三角形
@@ -45,7 +46,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     public void diagonal() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         SimpleDeterminant diagonalDeterminant = (SimpleDeterminant) simpleDeterminant.diagonal();
-        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        Field field = SimpleMatrix.class.getDeclaredField("numberArrays");
         field.setAccessible(true);
         double[][] numberArrays = (double[][]) field.get(diagonalDeterminant);
         // 检查对角线
@@ -67,7 +68,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
     public void getLength() throws NoSuchFieldException, IllegalAccessException {
         SimpleDeterminant simpleDeterminant = getSimpleInstance();
         int length = simpleDeterminant.getLength();
-        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        Field field = SimpleMatrix.class.getDeclaredField("numberArrays");
         field.setAccessible(true);
         double[][] numberArrays = (double[][]) field.get(simpleDeterminant);
         Assertions.assertEquals(length, numberArrays.length);
@@ -86,7 +87,7 @@ public abstract class SimpleDeterminantTest extends DeterminantTest {
         double[] testArray = randomDoubleArray(length);
         double[] solveResult = simpleDeterminant.solve(testArray);
 
-        Field field = SimpleDeterminant.class.getDeclaredField("numberArrays");
+        Field field = SimpleMatrix.class.getDeclaredField("numberArrays");
         field.setAccessible(true);
         double[][] numberArrays = (double[][]) field.get(simpleDeterminant);
         for (int i = 0; i < length; i++) {

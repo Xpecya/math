@@ -4,7 +4,7 @@ package xyz.xpecya.math;
  * 行列式
  * 不可变对象，所有运算都不会影响原行列式的元素
  */
-public abstract class Determinant {
+public interface Determinant extends Matrix {
 
     /**
      * 创建一个由同一个浮点数构成的行列式
@@ -13,7 +13,7 @@ public abstract class Determinant {
      * @param initValue 行列式初始值
      * @return 行列式
      */
-    public static Determinant create(int length, double initValue) {
+    static Determinant create(int length, double initValue) {
         if (length < 2) {
             throw new IllegalArgumentException("length can't be less than 2! got " + length);
         }
@@ -33,7 +33,7 @@ public abstract class Determinant {
      * @param initValue 行列式初始值
      * @return 行列式
      */
-    public static Determinant create(int length, ComplexNumber initValue) {
+    static Determinant create(int length, ComplexNumber initValue) {
         if (length < 2) {
             throw new IllegalArgumentException("length can't be less than 2! got " + length);
         }
@@ -56,7 +56,7 @@ public abstract class Determinant {
      * @param numberArrays 浮点数组
      * @return 浮点数行列式
      */
-    public static Determinant create(double[][] numberArrays) {
+    static Determinant create(double[][] numberArrays) {
         if (numberArrays == null) {
             throw new IllegalArgumentException("numberArrays can't be null!");
         }
@@ -90,7 +90,7 @@ public abstract class Determinant {
      * @param numberArrays 复数组
      * @return 复数行列式
      */
-    public static Determinant create(ComplexNumber[][] numberArrays) {
+    static Determinant create(ComplexNumber[][] numberArrays) {
         if (numberArrays == null) {
             throw new IllegalArgumentException("numberArrays can't be null!");
         }
@@ -132,18 +132,13 @@ public abstract class Determinant {
      * 计算行列式的值 以浮点数的形式返回
      * 如果行列式是复数行列式则返回计算结果的实部
      */
-    public abstract double calculateDouble();
+    double calculateDouble();
 
     /**
      * 计算行列式的值 以复数形式返回
      * 如果行列式是浮点数行列式则将浮点数转化为复数
      */
-    public abstract ComplexNumber calculateComplex();
-
-    /**
-     * 返回由行列式中的元素构成的矩阵方阵
-     */
-    public abstract Matrix toMatrix();
+    ComplexNumber calculateComplex();
 
     /**
      * 求解形如Ax=B的线性方程组
@@ -154,7 +149,7 @@ public abstract class Determinant {
      *
      * @return 线性方程组的解 以浮点数形式返回
      */
-    public double[] solve(double[] value) {
+    default double[] solve(double[] value) {
         if (value == null) {
             throw new IllegalArgumentException("value is null!");
         }
@@ -170,7 +165,7 @@ public abstract class Determinant {
         return doSolve(value);
     }
 
-    protected abstract double[] doSolve(double[] value);
+    double[] doSolve(double[] value);
 
     /**
      * 求解形如Ax=B的线性方程组
@@ -181,7 +176,7 @@ public abstract class Determinant {
      *
      * @return 线性方程组的解 以复数形式返回
      */
-    public ComplexNumber[] solve(ComplexNumber[] value) {
+    default ComplexNumber[] solve(ComplexNumber[] value) {
         if (value == null) {
             throw new IllegalArgumentException("value is null!");
         }
@@ -203,22 +198,22 @@ public abstract class Determinant {
         return doSolve(value);
     }
 
-    protected abstract ComplexNumber[] doSolve(ComplexNumber[] value);
+    ComplexNumber[] doSolve(ComplexNumber[] value);
 
     /**
      * 将当前行列式转换成运算结果相同的三角行列式
      */
-    public abstract Determinant triangle();
+    Determinant triangle();
 
     /**
      * 将当前行列式转换成运算结果相同的对角型行列式
      */
-    public abstract Determinant diagonal();
+    Determinant diagonal();
 
     /**
      * 获取行列式的边长
      */
-    public abstract int getLength();
+    int getLength();
 
     // 判断线性方程组的解是否存在
     // 通过方程组矩阵和增广矩阵的轶进行比较

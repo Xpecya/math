@@ -3,9 +3,7 @@ package xyz.xpecya.math;
 /**
  * 行列式 基于浮点数实现
  */
-public class SimpleDeterminant extends Determinant {
-
-    private final double[][] numberArrays;
+public class SimpleDeterminant extends SimpleMatrix implements Determinant {
 
     /**
      * 行列式的值
@@ -13,7 +11,7 @@ public class SimpleDeterminant extends Determinant {
     private Double value;
 
     SimpleDeterminant(double[][] numberArrays) {
-        this.numberArrays = numberArrays;
+        super(numberArrays);
     }
 
     @Override
@@ -43,11 +41,6 @@ public class SimpleDeterminant extends Determinant {
     public ComplexNumber calculateComplex() {
         double doubleValue = calculateDouble();
         return new ComplexNumber(doubleValue);
-    }
-
-    @Override
-    public Matrix toMatrix() {
-        return new SimpleMatrix(numberArrays);
     }
 
     @Override

@@ -3,41 +3,41 @@ package xyz.xpecya.math;
 /**
  * 浮点数矩阵
  */
-public class SimpleMatrix extends Matrix {
+public class SimpleMatrix implements Matrix {
 
-    private final double[][] numberArray;
+    protected final double[][] numberArrays;
 
-    SimpleMatrix(double[][] numberArray) {
-        this.numberArray = numberArray;
+    SimpleMatrix(double[][] numberArrays) {
+        this.numberArrays = numberArrays;
     }
 
     @Override
-    protected Matrix doAdd(Matrix matrix) {
+    public Matrix doAdd(Matrix matrix) {
         if (matrix instanceof ComplexMatrix complexMatrix) {
             return complexMatrix.doAdd(this);
         }
-        int row = numberArray.length;
-        int column = numberArray[0].length;
+        int row = numberArrays.length;
+        int column = numberArrays[0].length;
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] + matrix.doGetDouble(i, j);
+                numberArray[i][j] = this.numberArrays[i][j] + matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
     }
 
     @Override
-    protected Matrix doMinus(Matrix matrix) {
+    public Matrix doMinus(Matrix matrix) {
         if (matrix instanceof ComplexMatrix) {
             return transform().doMinus(matrix);
         }
-        int row = numberArray.length;
-        int column = numberArray[0].length;
+        int row = numberArrays.length;
+        int column = numberArrays[0].length;
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] - matrix.doGetDouble(i, j);
+                numberArray[i][j] = this.numberArrays[i][j] - matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
@@ -45,24 +45,24 @@ public class SimpleMatrix extends Matrix {
 
     @Override
     public Matrix multi(double input) {
-        int row = this.numberArray.length;
-        int column = this.numberArray[0].length;
+        int row = this.numberArrays.length;
+        int column = this.numberArrays[0].length;
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] * input;
+                numberArray[i][j] = this.numberArrays[i][j] * input;
             }
         }
         return new SimpleMatrix(numberArray);
     }
 
     @Override
-    protected Matrix doMulti(ComplexNumber complexNumber) {
+    public Matrix doMulti(ComplexNumber complexNumber) {
         return transform().doMulti(complexNumber);
     }
 
     @Override
-    protected Matrix doMulti(Matrix matrix) {
+    public Matrix doMulti(Matrix matrix) {
         if (matrix instanceof ComplexMatrix) {
             return transform().doMulti(matrix);
         }
@@ -75,7 +75,7 @@ public class SimpleMatrix extends Matrix {
             for (int j = 0; j < inputColumn; j++) {
                 double result = 0d;
                 for (int k = 0; k < column; k++) {
-                    double thisNumber = this.numberArray[i][k];
+                    double thisNumber = this.numberArrays[i][k];
                     double inputNumber = matrix.doGetDouble(k, j);
                     double multi = thisNumber * inputNumber;
                     result = result + multi;
@@ -87,7 +87,7 @@ public class SimpleMatrix extends Matrix {
     }
 
     @Override
-    protected Matrix doHadamard(Matrix matrix) {
+    public Matrix doHadamard(Matrix matrix) {
         if (matrix instanceof ComplexMatrix complexMatrix) {
             return complexMatrix.doHadamard(this);
         }
@@ -96,7 +96,7 @@ public class SimpleMatrix extends Matrix {
         double[][] numberArray = new double[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = this.numberArray[i][j] * matrix.doGetDouble(i, j);
+                numberArray[i][j] = this.numberArrays[i][j] * matrix.doGetDouble(i, j);
             }
         }
         return new SimpleMatrix(numberArray);
@@ -104,12 +104,12 @@ public class SimpleMatrix extends Matrix {
 
     @Override
     public Matrix transpose() {
-        int row = numberArray.length;
-        int column = numberArray[0].length;
+        int row = numberArrays.length;
+        int column = numberArrays[0].length;
         double[][] newArray = new double[column][row];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                newArray[j][i] = numberArray[i][j];
+                newArray[j][i] = numberArrays[i][j];
             }
         }
         return new SimpleMatrix(newArray);
@@ -117,65 +117,65 @@ public class SimpleMatrix extends Matrix {
 
     @Override
     public int getRow() {
-        return numberArray.length;
+        return numberArrays.length;
     }
 
     @Override
     public int getColumn() {
-        return numberArray[0].length;
+        return numberArrays[0].length;
     }
 
     @Override
-    protected double doGetDouble(int row, int column) {
-        return numberArray[row][column];
+    public double doGetDouble(int row, int column) {
+        return numberArrays[row][column];
     }
 
     @Override
-    protected double[] doGetDoubleRow(int row) {
-        return numberArray[row];
+    public double[] doGetDoubleRow(int row) {
+        return numberArrays[row];
     }
 
     @Override
-    protected ComplexNumber[] doGetComplexRow(int row) {
+    public ComplexNumber[] doGetComplexRow(int row) {
         double[] doubleRow = doGetDoubleRow(row);
         return getComplexArray(doubleRow);
     }
 
     @Override
-    protected double[] doGetDoubleColumn(int column) {
+    public double[] doGetDoubleColumn(int column) {
         int row = getRow();
         double[] result = new double[row];
         for (int i = 0; i < row; i++) {
-            result[i] = numberArray[i][column];
+            result[i] = numberArrays[i][column];
         }
         return result;
     }
 
     @Override
-    protected ComplexNumber[] doGetComplexColumn(int column) {
+    public ComplexNumber[] doGetComplexColumn(int column) {
         double[] doubleColumn = doGetDoubleColumn(column);
         return getComplexArray(doubleColumn);
     }
 
     @Override
-    protected Determinant doToDeterminant() {
+    public Determinant doToDeterminant() {
         int row = getRow();
         double[][] newArray = new double[row][row];
         for (int i = 0; i < row; i++) {
-            System.arraycopy(numberArray[i], 0, newArray[i], 0, row);
+            System.arraycopy(numberArrays[i], 0, newArray[i], 0, row);
         }
         return new SimpleDeterminant(newArray);
     }
 
     @Override
-    protected ComplexNumber doGetComplex(int row, int column) {
+    public ComplexNumber doGetComplex(int row, int column) {
         return new ComplexNumber(doGetDouble(row, column));
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (double[] itemArray : numberArray) {
+        for (double[] itemArray : numberArrays) {
             stringBuilder.append("| ");
             for (double item : itemArray) {
                 stringBuilder.append(item).append(" ");
@@ -198,7 +198,7 @@ public class SimpleMatrix extends Matrix {
         ComplexNumber[][] numberArray = new ComplexNumber[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                numberArray[i][j] = new ComplexNumber(this.numberArray[i][j]);
+                numberArray[i][j] = new ComplexNumber(this.numberArrays[i][j]);
             }
         }
         return new ComplexMatrix(numberArray);

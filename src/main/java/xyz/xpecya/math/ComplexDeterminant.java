@@ -3,14 +3,12 @@ package xyz.xpecya.math;
 /**
  * 行列式 基于复数实现
  */
-public class ComplexDeterminant extends Determinant {
-
-    private final ComplexNumber[][] numberArrays;
+public class ComplexDeterminant extends ComplexMatrix implements Determinant {
 
     private ComplexNumber value;
 
     ComplexDeterminant(ComplexNumber[][] numberArrays) {
-        this.numberArrays = numberArrays;
+        super(numberArrays);
     }
 
     @Override
@@ -40,11 +38,6 @@ public class ComplexDeterminant extends Determinant {
             }
         }
         return value;
-    }
-
-    @Override
-    public Matrix toMatrix() {
-        return new ComplexMatrix(numberArrays);
     }
 
     @Override
