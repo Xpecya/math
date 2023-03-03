@@ -159,12 +159,7 @@ public class SimpleMatrix implements Matrix {
 
     @Override
     public Determinant doToDeterminant() {
-        int row = getRow();
-        double[][] newArray = new double[row][row];
-        for (int i = 0; i < row; i++) {
-            System.arraycopy(numberArrays[i], 0, newArray[i], 0, row);
-        }
-        return new SimpleDeterminant(newArray);
+        return new SimpleDeterminant(numberArrays);
     }
 
     @Override

@@ -149,14 +149,7 @@ public class ComplexMatrix implements Matrix {
 
     @Override
     public Determinant doToDeterminant() {
-        int row = getRow();
-        ComplexNumber[][] newArray = new ComplexNumber[row][row];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < row; j++) {
-                newArray[i][j] = numberArrays[i][j].clone();
-            }
-        }
-        return new ComplexDeterminant(newArray);
+        return new ComplexDeterminant(numberArrays);
     }
 
     @Override
